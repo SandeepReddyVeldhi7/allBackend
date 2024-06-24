@@ -33,13 +33,20 @@ export const Login = async (req, res) => {
     const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET, {
       expiresIn: "1d",
     });
+
+    // Token options
+    const tokenOption = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Secure cookie in production
+      sameSite:"None",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    };
+
+    // Set token in HTTP-only cookie
+    
     return res
       .status(201)
-      .cookie("token", token, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      })
+      .cookie("token", token, tokenOption)
       .json({
         message: `welcome back ${user.name}`,
         user,
