@@ -10,8 +10,9 @@ const isAuthenticated = async (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
-      return res.status(401).json({
+      return res.json({
         message: "Please Login...",
+        error:true,
         success: false,
       });
     }
