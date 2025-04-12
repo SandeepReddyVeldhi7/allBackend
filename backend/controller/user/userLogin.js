@@ -13,7 +13,7 @@ export const Login = async (req, res) => {
       });
     }
     const user = await User.findOne({ email });
-    console.log(user);
+    // console.log(user);
     if (!user) {
       return res.status(401).json({
         message: "Incorrect email or password",
@@ -35,13 +35,21 @@ export const Login = async (req, res) => {
     });
 
     // Token options
+    // const tokenOption = {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production", // Secure cookie in production
+    //   sameSite:"None",
+    //   maxAge: 24 * 60 * 60 * 1000, // 1 day
+    // };
+
+
     const tokenOption = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Secure cookie in production
-      sameSite:"None",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      secure: false, // change to false for local dev
+      sameSite: "Lax", // change to Lax or Strict for dev (browser will accept it)
+      maxAge: 24 * 60 * 60 * 1000,
     };
-
+    
     // Set token in HTTP-only cookie
     
     return res
