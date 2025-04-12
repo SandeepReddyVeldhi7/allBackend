@@ -2,7 +2,7 @@ import { User } from "../../models/userModel.js";
 
 export const userDetails = async (req, res) => {
   try {
-    //console.log("user id", req.user.id); // Correctly log the user ID
+    console.log("user id",  req.user.id); // Correctly log the user ID
 
     // Fetch user details from the database
     const user = await User.findById(req.user.id).select("-password");
